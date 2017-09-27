@@ -85,16 +85,29 @@ class LinkedList {
       currentNode = currentNode.next;
       currentNodeIndex += 1;
     }
-    if (currentNode !== this._head) {
-      currentNode.prev.next = currentNode.next;
-    }
-    if (currentNode !== this._tail) {
+
+    if (currentNode === this._head && currentNode !== this._tail) {
+      this._head = currentNode.next;
       currentNode.next.prev = currentNode.prev;
+      currentNode.next = null;
+      currentNode.prev = null;
+    } else if (currentNode === this._tail && currentNode !== this._head) {
+      this._tail = currentNode.prev;
+      currentNode.prev.next = currentNode.next;
+      currentNode.next = null;
+      currentNode.prev = null;
+    } else if (currentNode === this._head && currentNode === this._tail) {
+      this._head.data = null;
+      this._tail.data = null;
+    } else {
+      currentNode.prev.next = currentNode.next;
+      currentNode.next.prev = currentNode.prev;
+      currentNode.next = null;
+      currentNode.prev = null;
     }
-    currentNode.next = null;
-    currentNode.prev = null;
 
     this.length -= 1;
+
     return this;
   }
 
